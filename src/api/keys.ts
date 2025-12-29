@@ -55,4 +55,16 @@ export const queryKeys = {
         list: (params?: { residenceId?: string }) =>
             [...queryKeys.members.all, 'list', params] as const,
     },
+
+    // Admin Auth
+    adminAuth: {
+        all: ['adminAuth'] as const,
+        me: ['adminAuth', 'me'] as const,
+    },
+
+    // Admin Users Management
+    adminUsers: {
+        all: ['adminUsers'] as const,
+        list: () => [...queryKeys.adminUsers.all, 'list'] as const,
+    },
 } as const;

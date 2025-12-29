@@ -2,8 +2,10 @@ import { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router';
 import { Spin } from 'antd';
 import { AppLayout } from '@/components/layout';
+import { ProtectedRoute } from '@/components/ProtectedRoute';
 
 // Lazy load pages for better performance
+const Login = lazy(() => import('@/pages/Login'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const Residences = lazy(() => import('@/pages/Residences'));
 const ResidenceDetails = lazy(() => import('@/pages/Residences/ResidenceDetails'));
@@ -11,6 +13,7 @@ const Payments = lazy(() => import('@/pages/Payments'));
 const Users = lazy(() => import('@/pages/Users'));
 const UserDetails = lazy(() => import('@/pages/Users/UserDetails'));
 const DeletionRequests = lazy(() => import('@/pages/DeletionRequests'));
+const AdminUsers = lazy(() => import('@/pages/AdminUsers'));
 
 function PageLoader() {
   return (
@@ -24,7 +27,17 @@ export function AppRoutes() {
   return (
     <Suspense fallback={<PageLoader />}>
       <Routes>
-        <Route element={<AppLayout />}>
+        {/* Public route */}
+        <Route path="/login" element={<Login />} />
+
+        {/* Protected routes */}
+        <Route
+          element={
+            <ProtectedRoute>
+              <AppLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route path="/" element={<Dashboard />} />
           <Route path="/residences" element={<Residences />} />
           <Route path="/residences/:id" element={<ResidenceDetails />} />
@@ -32,6 +45,14 @@ export function AppRoutes() {
           <Route path="/users" element={<Users />} />
           <Route path="/users/:id" element={<UserDetails />} />
           <Route path="/deletion-requests" element={<DeletionRequests />} />
+          <Route
+            path="/admin-users"
+            element={
+              <ProtectedRoute requireSuperAdmin>
+                <AdminUsers />
+              </ProtectedRoute>
+            }
+          />
         </Route>
       </Routes>
     </Suspense>

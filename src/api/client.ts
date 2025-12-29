@@ -1,6 +1,21 @@
 import axios from 'axios';
 import { API_URL } from '@/utils/constants';
 
+// Token management
+const TOKEN_KEY = 'admin_auth_token';
+
+export const getAuthToken = (): string | null => {
+    return localStorage.getItem(TOKEN_KEY);
+};
+
+export const setAuthToken = (token: string): void => {
+    localStorage.setItem(TOKEN_KEY, token);
+};
+
+export const clearAuthToken = (): void => {
+    localStorage.removeItem(TOKEN_KEY);
+};
+
 /**
  * Axios instance configured for the Admin API
  * All requests go to /api/admin/*
@@ -11,14 +26,19 @@ export const apiClient = axios.create({
     headers: {
         'Content-Type': 'application/json',
     },
-    withCredentials: true, // Include cookies for Cloudflare Access
 });
 
 /**
- * Request interceptor for logging and error handling
+ * Request interceptor for auth token and logging
  */
 apiClient.interceptors.request.use(
     (config) => {
+        // Add auth token if available
+        const token = getAuthToken();
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+
         // Log requests in development
         if (import.meta.env.DEV) {
             console.log(`[API] ${config.method?.toUpperCase()} ${config.url}`);
@@ -47,9 +67,13 @@ apiClient.interceptors.response.use(
             message,
         });
 
-        // Handle 401 Unauthorized
+        // Handle 401 Unauthorized - redirect to login
         if (status === 401) {
-            console.error('[API] 401 Unauthorized - Check Cloudflare Access configuration');
+            // Only redirect if not already on login page
+            if (!window.location.pathname.includes('/login')) {
+                clearAuthToken();
+                window.location.href = '/login';
+            }
         }
 
         // Handle 403 Forbidden
