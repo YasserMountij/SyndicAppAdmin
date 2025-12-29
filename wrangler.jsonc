@@ -1,8 +1,10 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "syndic-admin",
+  "name": "syndicappadmin",
   "compatibility_date": "2025-12-28",
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "single-page-application"
   }
 }
