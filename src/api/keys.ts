@@ -67,4 +67,10 @@ export const queryKeys = {
         all: ['adminUsers'] as const,
         list: () => [...queryKeys.adminUsers.all, 'list'] as const,
     },
+
+    // OTPs
+    otps: {
+        all: ['otps'] as const,
+        list: () => [...queryKeys.otps.all, 'list'] as const,
+    },
 } as const;

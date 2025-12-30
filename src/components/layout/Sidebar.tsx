@@ -8,6 +8,7 @@ import {
   DeleteOutlined,
   TeamOutlined,
   LogoutOutlined,
+  KeyOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { useAuth } from '@/context/AuthContext';
@@ -63,6 +64,11 @@ export function Sidebar({ collapsed, onNavigate }: SidebarProps) {
       key: '/deletion-requests',
       icon: <DeleteOutlined />,
       label: 'Deletion Requests',
+    },
+    {
+      key: '/otps',
+      icon: <KeyOutlined />,
+      label: 'OTPs',
     },
     // Admin Users - only visible to SUPER_ADMIN
     ...(isSuperAdmin ? [{

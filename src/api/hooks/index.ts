@@ -91,3 +91,11 @@ export type {
 export {
     useMembers,
 } from './useMembers';
+
+// OTPs hooks and types
+export {
+    useOtps,
+} from './useOtps';
+export type {
+    PendingOtp,
+} from './useOtps';

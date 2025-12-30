@@ -14,6 +14,7 @@ const Users = lazy(() => import('@/pages/Users'));
 const UserDetails = lazy(() => import('@/pages/Users/UserDetails'));
 const DeletionRequests = lazy(() => import('@/pages/DeletionRequests'));
 const AdminUsers = lazy(() => import('@/pages/AdminUsers'));
+const Otps = lazy(() => import('@/pages/Otps'));
 
 function PageLoader() {
   return (
@@ -45,6 +46,7 @@ export function AppRoutes() {
           <Route path="/users" element={<Users />} />
           <Route path="/users/:id" element={<UserDetails />} />
           <Route path="/deletion-requests" element={<DeletionRequests />} />
+          <Route path="/otps" element={<Otps />} />
           <Route
             path="/admin-users"
             element={
